@@ -1,0 +1,3 @@
+[submodule "json-schema.hyperjump.io"]
+	path = json-schema.hyperjump.io
+	url = https://github.com/hyperjump-io/json-schema.hyperjump.io.git

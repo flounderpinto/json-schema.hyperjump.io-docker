@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Init submodules
+        run: make init
+
+      - name: Docker build branch
+        run: make docker
+        if: ${{ github.ref_type == 'branch' && github.ref_name != 'main' }}
+
+      - name: Docker build main
+        run: make docker_main
+        if: ${{ github.ref_type == 'branch' && github.ref_name == 'main' }}
+
+      - name: Docker build tag
+        run: make docker_tag TAG="${{github.ref_name}}"
+        if: ${{ github.ref_type == 'tag' }}
