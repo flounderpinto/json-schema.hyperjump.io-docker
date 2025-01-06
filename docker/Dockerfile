@@ -1,4 +1,4 @@
-FROM nginx:1.25.3
+FROM nginx:1.27.3
 
 COPY json-schema.hyperjump.io /usr/share/nginx/html
 
